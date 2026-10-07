@@ -19,13 +19,23 @@
     margin: 0 auto;
     padding: 40px 24px;
   }
+  .post {
+    padding-bottom: 28px;
+    margin-bottom: 28px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  .post:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
   .update-time {
     color: #9ca3af;
     font-size: 13px;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
   }
   .image {
-    margin-bottom: 24px;
+    margin-bottom: 16px;
   }
   .image img {
     max-width: 100%;
@@ -42,10 +52,47 @@
 </style>
 </head>
 <body>
-  <div class="container">
-    <div class="update-time">更新时间：2026年09月30日 15:46</div>
-    <div class="image"><img src="assets/1.png" alt=""></div>
-    <div class="text"><p>大家节日快乐，这几个月做了很多评测，收益只会越来越硬，净值越来越高</p></div>
-  </div>
+  <div class="container" id="feed"></div>
+<script>
+(function () {
+  var POSTS = [{"time":"2026-09-30 15:46","images":["assets/20260930-1546-1.png"],"text":["大家节日快乐，这几个月做了很多评测，收益只会越来越硬，净值越来越高"]},{"time":"2026-10-07 20:19","images":[],"text":["以后的发布新不覆盖旧，往下看可回顾从前。"]}];
+  var feed = document.getElementById('feed');
+  if (!POSTS || !POSTS.length) return;
+
+  POSTS.forEach(function (post) {
+    var sec = document.createElement('div');
+    sec.className = 'post';
+
+    var t = document.createElement('div');
+    t.className = 'update-time';
+    t.textContent = '更新时间：' + post.time;
+    sec.appendChild(t);
+
+    (post.images || []).forEach(function (src) {
+      var wrap = document.createElement('div');
+      wrap.className = 'image';
+      var img = document.createElement('img');
+      img.src = src;
+      img.alt = '';
+      img.loading = 'lazy';
+      wrap.appendChild(img);
+      sec.appendChild(wrap);
+    });
+
+    if (post.text && post.text.length) {
+      var body = document.createElement('div');
+      body.className = 'text';
+      post.text.forEach(function (para) {
+        var p = document.createElement('p');
+        p.textContent = para;
+        body.appendChild(p);
+      });
+      sec.appendChild(body);
+    }
+
+    feed.appendChild(sec);
+  });
+})();
+</script>
 </body>
 </html>
